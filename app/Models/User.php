@@ -18,10 +18,12 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'nombres',
+        'apellidos',
         'email',
         'password',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -32,7 +34,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
     /**
      * Get the attributes that should be cast.
      *
