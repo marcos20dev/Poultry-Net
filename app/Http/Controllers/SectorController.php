@@ -9,13 +9,17 @@ class SectorController extends Controller
 {
     public function loteDetalle(Sector $sector)
     {
-        $lotes = $sector->lotes()->get(); // Relación one-to-many en Sector
+        // Mostrar solo lotes del user logueado
+        $lotes = $sector->lotes()
+            ->where('user_id', auth()->id())
+            ->get();
+
         return view('site.gestion_lotes.lote-detalle', compact('sector', 'lotes'));
     }
 
     public function index(Request $request)
     {
-        $query = Sector::query();
+        $query = Sector::where('user_id', auth()->id()); // ✅ filtro por usuario
 
         // 🔍 Filtro búsqueda (nombre o descripción)
         if ($request->filled('q')) {
@@ -50,13 +54,6 @@ class SectorController extends Controller
         return view('site.gestion_sectores.sectores', compact('sectores'));
     }
 
-
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -65,31 +62,17 @@ class SectorController extends Controller
             'descripcion' => 'nullable',
         ]);
 
-        Sector::create($request->all());
+        Sector::create([
+            'nombre' => $request->nombre,
+            'temperatura' => $request->temperatura,
+            'descripcion' => $request->descripcion,
+            'user_id' => auth()->id(), // ✅ guardar con user_id
+        ]);
 
         return redirect()->route('sectores.index')
             ->with('success', 'Sector creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Sector $sector)
     {
         $request->validate([
@@ -98,17 +81,24 @@ class SectorController extends Controller
             'descripcion' => 'nullable|string',
         ]);
 
+        // ✅ asegurar que solo el dueño lo pueda actualizar
+        if ($sector->user_id !== auth()->id()) {
+            abort(403, 'No autorizado');
+        }
+
         $sector->update($request->only('nombre', 'temperatura', 'descripcion'));
 
         return redirect()->route('sectores.index')
             ->with('success', 'Sector actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Sector $sector)
     {
+        // ✅ asegurar que solo el dueño lo pueda eliminar
+        if ($sector->user_id !== auth()->id()) {
+            abort(403, 'No autorizado');
+        }
+
         $sector->delete();
 
         return redirect()->route('sectores.index')

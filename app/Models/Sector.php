@@ -25,4 +25,9 @@ class Sector extends Model
     {
         return $this->hasMany(Deteccion::class);
     }
+    public function sector()
+    {
+        return $this->belongsTo(\App\Models\Sector::class);
+    }
+
 }

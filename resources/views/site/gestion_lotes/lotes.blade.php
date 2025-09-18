@@ -8,7 +8,7 @@
         <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-500 bg-clip-text text-transparent">Gestión de Lotes</h1>
-                <p class="text-gray-500 text-sm mt-1">Administra tus lotes de pollos</p>
+                <p class="text-gray-500 text-sm mt-1">Adminissssss pollos</p>
             </div>
             <div>
                 <button @click="openCreateModal = true"
