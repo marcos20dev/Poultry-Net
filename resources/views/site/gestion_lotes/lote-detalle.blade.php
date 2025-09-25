@@ -117,13 +117,9 @@
                                 </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="block text-gray-700 font-semibold mb-2">Recomendación</label>
-                                <div class="relative">
-                                    <textarea name="recomendacion" class="w-full border border-gray-300 rounded-xl p-3 pl-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="Ingrese recomendaciones..."></textarea>
-                                    <i class="fas fa-lightbulb absolute left-3 top-3.5 text-gray-400"></i>
-                                </div>
-                            </div>
+
+
+
                         </div>
 
                         <div class="flex flex-col sm:flex-row justify-end gap-3 pt-6">
@@ -345,6 +341,18 @@
                 }, 2000); // Ajusta el tiempo según tu detección
             });
         });
+        if (data.success) {
+            document.getElementById('enfermedadInput').value = data.prediction.predicted_class;
+            document.getElementById('confianzaInput').value = (data.prediction.max_confidence * 100).toFixed(2);
+            confidenceBar.style.width = `${data.prediction.max_confidence * 100}%`;
+
+            detectionResults.classList.remove('hidden');
+            document.getElementById('infoAdicional').classList.remove('hidden'); // 👈 mostrar bloque adicional
+            submitButton.disabled = false;
+            mostrarRecomendaciones(data.prediction.predicted_class);
+            detectionResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
     </script>
 
 @endsection

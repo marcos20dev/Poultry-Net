@@ -20,6 +20,7 @@ Route::post('/registro', [AutenticacionController::class, 'registrarUsuario'])->
 
 Route::get('/login', [AutenticacionController::class, 'mostrarFormularioLogin'])->name('login');
 Route::post('/login', [AutenticacionController::class, 'iniciarSesion'])->name('usuarios.login');
+Route::post('/cerrar-sesion', [AutenticacionController::class, 'cerrarSesion'])->name('cerrar.sesion');
 
 
 Route::middleware('auth')->group(function () {

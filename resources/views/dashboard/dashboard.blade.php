@@ -204,6 +204,7 @@
 
 
 
+
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <x-dashboard-card title="Total Detecciones" :value="$totalDetecciones" icon="activity" color="green"/>
@@ -215,15 +216,32 @@
         </div>
 
         <!-- Charts Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <x-chart-card title="Detecciones por Enfermedad" id="deteccionesChart" :labels="$deteccionesPorEnfermedad->keys()" :values="$deteccionesPorEnfermedad->values()" type="bar" />
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+            <x-chart-card
+                title="Detecciones por Enfermedad"
+                id="deteccionesChart"
+                :labels="$deteccionesPorEnfermedad->keys()"
+                :values="$deteccionesPorEnfermedad->values()"
+                type="bar"
+            />
+
+            <x-chart-card
+                title="Tendencias de Tiempo"
+                id="tiempoTrendChart"
+                :labels="['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4']"
+                :values="[3.2, 2.9, 2.7, 2.4]"
+                type="line"
+            />
+
+            <x-chart-card
+                title="Eficiencia por Sector"
+                id="sectoresChart"
+                :labels="['Sector A','Sector B','Sector C','Sector D']"
+                :values="[85,75,90,65]"
+                type="radar"
+            />
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            <x-chart-card title="Tendencias de Tiempo" id="tiempoTrendChart" :labels="['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4']" :values="[3.2, 2.9, 2.7, 2.4]" type="line" />
-            <x-chart-card title="Distribución de Costos" id="costosChart" :labels="['Alimentación', 'Medicamentos', 'Mano de Obra', 'Equipamiento']" :values="[45,25,20,10]" type="pie" />
-            <x-chart-card title="Eficiencia por Sector" id="sectoresChart" :labels="['Sector A','Sector B','Sector C','Sector D']" :values="[85,75,90,65]" type="radar" />
-        </div>
 
         <!-- Últimas Detecciones -->
         <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">

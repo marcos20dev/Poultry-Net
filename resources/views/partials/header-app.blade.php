@@ -109,10 +109,13 @@
                         </div>
                         <a href="" class="block px-4 py-2 text-gray-700 hover:bg-emerald-50 transition-colors">Perfil</a>
                         <a href="{{route('vista.ajustes')}}" class="block px-4 py-2 text-gray-700 hover:bg-emerald-50 transition-colors">Ajustes</a>
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('cerrar.sesion') }}">
                             @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-emerald-50 transition-colors">Cerrar sesión</button>
+                            <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-emerald-50 transition-colors">
+                                Cerrar sesión
+                            </button>
                         </form>
+
                     </div>
                 </div>
             </div>

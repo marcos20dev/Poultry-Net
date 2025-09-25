@@ -29,7 +29,6 @@ class DeteccionController extends Controller
             'confianza' => 'required|numeric',
             'tiempo_deteccion' => 'required|numeric',
             'observaciones' => 'nullable|string',
-            'recomendacion' => 'nullable|string',
         ]);
 
         // Convertir a base64
@@ -45,7 +44,6 @@ class DeteccionController extends Controller
             'confianza' => $data['confianza'],
             'tiempo_deteccion' => $data['tiempo_deteccion'],
             'observaciones' => $request->observaciones,
-            'recomendacion' => $data['recomendacion'],
         ]);
 
         return redirect()
