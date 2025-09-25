@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sector;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SectorController extends Controller
 {
@@ -54,43 +55,52 @@ class SectorController extends Controller
         return view('site.gestion_sectores.sectores', compact('sectores'));
     }
 
+
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|unique:sectores,nombre',
-            'temperatura' => 'required',
-            'descripcion' => 'nullable',
+            'nombre' => [
+                'required',
+                Rule::unique('sectores')->where(fn ($query) => $query->where('user_id', auth()->id())),
+            ],
+            'temperatura' => 'required|numeric',
+            'descripcion' => 'nullable|string',
         ]);
 
         Sector::create([
             'nombre' => $request->nombre,
             'temperatura' => $request->temperatura,
             'descripcion' => $request->descripcion,
-            'user_id' => auth()->id(), // ✅ guardar con user_id
+            'user_id' => auth()->id(),
         ]);
 
         return redirect()->route('sectores.index')
             ->with('success', 'Sector creado correctamente.');
     }
 
+
     public function update(Request $request, Sector $sector)
     {
-        $request->validate([
-            'nombre' => 'required|unique:sectores,nombre,' . $sector->id,
-            'temperatura' => 'required|numeric',
-            'descripcion' => 'nullable|string',
-        ]);
-
-        // ✅ asegurar que solo el dueño lo pueda actualizar
         if ($sector->user_id !== auth()->id()) {
             abort(403, 'No autorizado');
         }
+
+        $request->validate([
+            'nombre' => [
+                'required',
+                Rule::unique('sectores')->ignore($sector->id)->where(fn ($query) => $query->where('user_id', auth()->id())),
+            ],
+            'temperatura' => 'required|numeric',
+            'descripcion' => 'nullable|string',
+        ]);
 
         $sector->update($request->only('nombre', 'temperatura', 'descripcion'));
 
         return redirect()->route('sectores.index')
             ->with('success', 'Sector actualizado correctamente.');
     }
+
+
 
     public function destroy(Sector $sector)
     {

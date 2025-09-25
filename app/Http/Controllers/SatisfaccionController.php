@@ -2,35 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RespuestaSatisfaccion;
 use App\Models\Satisfaccion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SatisfaccionController extends Controller
 {
     // Guardar feedback
     public function store(Request $request)
     {
+        Log::info('✅ Store: request recibido', $request->all());
+
         $request->validate([
-            'puntuacion' => 'required|integer|min:1|max:5',
-            'comentario' => 'nullable|string|max:500',
+            'ratings' => 'required|array',
+            'ratings.*' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:500'
         ]);
 
-        Satisfaccion::create([
-            'user_id' => Auth::id(),
-            'puntuacion' => $request->puntuacion,
-            'comentario' => $request->comentario,
+        $userId = auth()->id();
+        Log::info('User ID: ' . $userId);
+
+        foreach ($request->ratings as $pregunta_id => $puntuacion) {
+            Log::info('Guardando respuesta', ['pregunta_id' => $pregunta_id, 'puntuacion' => $puntuacion]);
+
+            \App\Models\RespuestaSatisfaccion::create([
+                'user_id' => $userId,
+                'pregunta_id' => $pregunta_id,
+                'puntuacion' => $puntuacion
+            ]);
+        }
+
+        Log::info('Encuesta guardada correctamente');
+
+        return response()->json([
+            'message' => 'Encuesta guardada correctamente'
         ]);
-
-        return back()->with('success', '¡Gracias por tu retroalimentación!');
     }
 
-    // Mostrar promedio general (ejemplo para dashboard)
-    public function promedio()
-    {
-        $promedio = Satisfaccion::avg('puntuacion');
-        $total = Satisfaccion::count();
-
-        return view('dashboard', compact('promedio', 'total'));
-    }
 }

@@ -17,13 +17,16 @@ class LoteController extends Controller
         $userId = auth()->id();
 
         // Traer los lotes del usuario con su sector relacionado
-        $lotes = Lote::with('sector')->where('user_id', $userId)->get();
+        $lotes = Lote::with('sector')
+            ->where('user_id', $userId)
+            ->get();
 
-        // Todos los sectores (para seleccionar al crear/editar)
-        $sectores = Sector::all();
+        // Solo sectores del usuario autenticado
+        $sectores = Sector::where('user_id', $userId)->get();
 
         return view('site.gestion_lotes.lotes', compact('lotes', 'sectores'));
     }
+
 
     public function detectar(Request $request)
     {

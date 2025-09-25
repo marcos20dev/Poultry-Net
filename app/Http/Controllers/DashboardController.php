@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Deteccion;
-use App\Models\Satisfaccion;
 use App\Models\Costo;
 use App\Models\Sector;
-use App\Models\PreguntaSatisfaccion;
+use App\Models\PreguntaSatisfaccion; // Solo si lo usas para el modal, si no, también se puede eliminar
 
 class DashboardController extends Controller
 {
@@ -27,22 +26,12 @@ class DashboardController extends Controller
             'promedio_gasto' => Costo::where('user_id', $userId)->avg('gasto_deteccion')
         ];
 
-        // Satisfacción promedio solo del usuario
-        $satisfaccionPromedio = Satisfaccion::where('user_id', $userId)->avg('puntuacion');
-
         // Detecciones por enfermedad solo del usuario
         $deteccionesPorEnfermedad = Deteccion::where('user_id', $userId)
             ->select('enfermedad')
             ->selectRaw('COUNT(*) as total')
             ->groupBy('enfermedad')
             ->pluck('total', 'enfermedad');
-
-        // Satisfacciones por puntuación solo del usuario
-        $satisfaccionesPorPuntuacion = Satisfaccion::where('user_id', $userId)
-            ->select('puntuacion')
-            ->selectRaw('COUNT(*) as total')
-            ->groupBy('puntuacion')
-            ->pluck('total', 'puntuacion');
 
         // Eficiencia por sector solo del usuario
         $eficienciaPorSector = Deteccion::where('user_id', $userId)
@@ -66,21 +55,20 @@ class DashboardController extends Controller
             ->latest()
             ->take(10)
             ->get();
-
-        // Preguntas de satisfacción (no necesitan filtro de usuario)
-        $preguntas = PreguntaSatisfaccion::orderBy('id')->get();
+        $preguntasSatisfaccion = PreguntaSatisfaccion::all();
 
         return view('dashboard.dashboard', compact(
             'totalDetecciones',
             'tiempoPromedio',
             'costos',
-            'satisfaccionPromedio',
             'deteccionesPorEnfermedad',
-            'satisfaccionesPorPuntuacion',
             'eficienciaPorSector',
             'distribucionCostos',
             'ultimasDetecciones',
-            'preguntas'
+            'preguntasSatisfaccion' // 👈 pasamos las preguntas
+
         ));
     }
+
+
 }

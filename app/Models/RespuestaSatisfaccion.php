@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class RespuestaSatisfaccion extends Model
 {
-    protected $fillable = ['user_id','pregunta_id','valor','comentario'];
+    protected $table = 'respuestas_satisfaccion'; // Nombre real de la tabla
+
+    protected $fillable = ['user_id','pregunta_id','puntuacion'];
 
     public function pregunta()
     {

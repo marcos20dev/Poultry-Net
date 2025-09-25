@@ -80,4 +80,6 @@ Route::middleware('auth')->group(function () {
     //SATISFACCION
     Route::post('/satisfaccion', [SatisfaccionController::class, 'store'])->name('satisfaccion.store');
 
+
+
 });
