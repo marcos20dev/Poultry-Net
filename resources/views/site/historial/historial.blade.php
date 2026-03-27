@@ -5,26 +5,9 @@
 @section('content')
     <div class="w-full min-h-screen bg-gray-100 p-6">
 
-        <h1 class="text-2xl font-bold text-gray-700 mb-6">📊 Historial Avanzado de Detecciones</h1>
+        <h1 class="text-2xl font-bold text-gray-700 mb-6">📊 Historial de Detecciones por Sector</h1>
 
-        @php
-            // Datos estáticos simulados
-            $inversion = 1300;
-            $costoDet = 5;
-            $detecciones = [
-                ['sector' => 'Norte', 'lote' => 'Ross 308', 'desc' => 'Crecimiento estable', 'fecha' => '2025-01-06', 'tiempo' => '0.62s'],
-                ['sector' => 'Sur', 'lote' => 'Ross 308', 'desc' => 'Salmonella detectada', 'fecha' => '2025-01-07', 'tiempo' => '0.37s'],
-                ['sector' => 'Norte', 'lote' => 'Cobb 500', 'desc' => 'Posible enfermedad', 'fecha' => '2025-01-08', 'tiempo' => '0.59s'],
-                ['sector' => 'Este', 'lote' => 'Hubbard', 'desc' => 'Anomalía leve', 'fecha' => '2025-01-09', 'tiempo' => '0.41s'],
-            ];
-            $totalDet = count($detecciones);
-            $retorno = $totalDet * $costoDet;
-            $estado = $retorno >= $inversion ? 'ahorro' : 'recuperacion';
-            $ahorro = $estado === 'ahorro' ? $retorno - $inversion : 0;
-            $faltante = $estado === 'recuperacion' ? $inversion - $retorno : 0;
-        @endphp
-
-        {{-- KPIs principales --}}
+        {{-- KPIs generales --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div class="bg-white shadow rounded-2xl p-4">
                 <p class="text-sm text-gray-500">💵 Inversión Inicial</p>
@@ -32,7 +15,7 @@
             </div>
             <div class="bg-white shadow rounded-2xl p-4">
                 <p class="text-sm text-gray-500">🔍 Costo por Detección</p>
-                <p class="text-2xl font-bold text-blue-600">S/ {{ number_format($costoDet, 2) }}</p>
+                <p class="text-2xl font-bold text-blue-600">S/ {{ number_format($gastoDet, 2) }}</p>
             </div>
             <div class="bg-white shadow rounded-2xl p-4">
                 <p class="text-sm text-gray-500">📈 Total de Detecciones</p>
@@ -50,8 +33,7 @@
         <div class="bg-white shadow rounded-2xl p-6 mb-6">
             @if ($estado === 'recuperacion')
                 <p class="text-gray-700 text-sm">💡 Aún en recuperación: faltan
-                    <span class="font-bold">S/ {{ number_format($faltante, 2) }}</span>
-                    para cubrir la inversión inicial.
+                    <span class="font-bold">S/ {{ number_format($faltante, 2) }}</span> para cubrir la inversión inicial.
                 </p>
             @else
                 <p class="text-green-600 text-sm">✅ Inversión recuperada.</p>
@@ -61,22 +43,23 @@
             @endif
         </div>
 
-        {{-- Historial de detecciones detallado --}}
-        <h2 class="text-lg font-semibold text-gray-700 mb-3">📜 Lista de Detecciones</h2>
+        {{-- Resumen por Sector --}}
+        <h2 class="text-lg font-semibold text-gray-700 mt-8 mb-3">🏷️ Resumen por Sector</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            @foreach ($detecciones as $d)
-                <div class="bg-white shadow rounded-2xl p-4 hover:shadow-lg transition">
+            @forelse ($sectoresResumen as $s)
+                <a href="{{ route('historial.sector_detalle', $s['id']) }}" class="bg-white shadow rounded-2xl p-4 hover:shadow-lg transition block">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm font-semibold text-gray-600">Sector {{ $d['sector'] }}</span>
-                        <span class="text-xs text-gray-400">{{ $d['fecha'] }}</span>
+                        <span class="text-sm font-semibold text-gray-600">{{ $s['nombre'] }}</span>
+                        <span class="text-xs text-gray-400">{{ $s['cantidad'] }} detecciones</span>
                     </div>
-                    <p class="text-gray-700 text-sm mb-1">🐔 Lote: <span class="font-bold">{{ $d['lote'] }}</span></p>
-                    <p class="text-gray-700 text-sm mb-1">🔍 {{ $d['desc'] }}</p>
+                    <p class="text-gray-700 text-sm mb-1">🔍 Enfermedad más reciente: <span class="font-bold">{{ $s['enfermedad'] }}</span></p>
                     <div class="bg-gray-50 border border-gray-200 rounded-xl p-2 text-xs">
-                        Tiempo de detección: <span class="font-bold">{{ $d['tiempo'] }}</span>
+                        Tiempo promedio: <span class="font-bold">{{ number_format($s['tiempo_promedio'], 2) }}s</span>
                     </div>
-                </div>
-            @endforeach
+                </a>
+            @empty
+                <p class="text-gray-500">No hay sectores con detecciones aún.</p>
+            @endforelse
         </div>
 
     </div>

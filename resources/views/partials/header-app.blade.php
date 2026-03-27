@@ -13,92 +13,61 @@
 
             <!-- Menú PC -->
             <div class="hidden md:flex items-center space-x-1">
-                {{-- ✅ Dashboard --}}
+                {{-- Dashboard --}}
                 <a href="{{ route('dashboard') }}"
                    class="flex items-center px-4 py-2 rounded-xl font-medium transition-all duration-300 group
-       {{ request()->routeIs('dashboard') ? 'text-emerald-700 bg-emerald-50' : 'text-gray-700 hover:text-emerald-700 hover:bg-emerald-50' }}">
+                   {{ request()->routeIs('dashboard') ? 'text-emerald-700 bg-emerald-50' : 'text-gray-700 hover:text-emerald-700 hover:bg-emerald-50' }}">
                     <i class="fas fa-home mr-2 {{ request()->routeIs('dashboard') ? 'text-emerald-600' : 'text-gray-500 group-hover:text-emerald-600' }}"></i>
                     <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300
-            {{ request()->routeIs('dashboard') ? 'after:w-full' : 'after:w-0 group-hover:after:w-full' }}">
-            Dashboard
-        </span>
+                    {{ request()->routeIs('dashboard') ? 'after:w-full' : 'after:w-0 group-hover:after:w-full' }}">
+                        Dashboard
+                    </span>
                 </a>
 
-                {{-- ✅ Gestión de Sectores --}}
+                {{-- Gestión de Sectores --}}
                 <a href="{{ route('sectores.index') }}"
                    class="flex items-center px-4 py-2 rounded-xl font-medium transition-all duration-300 group
-       {{ request()->routeIs('sectores.*') ? 'text-emerald-700 bg-emerald-50' : 'text-gray-600 hover:text-emerald-700 hover:bg-emerald-50' }}">
+                   {{ request()->routeIs('sectores.*') ? 'text-emerald-700 bg-emerald-50' : 'text-gray-600 hover:text-emerald-700 hover:bg-emerald-50' }}">
                     <i class="fas fa-dove mr-2 {{ request()->routeIs('sectores.*') ? 'text-emerald-600' : 'text-gray-500 group-hover:text-emerald-600' }}"></i>
                     <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300
-            {{ request()->routeIs('sectores.*') ? 'after:w-full' : 'after:w-0 group-hover:after:w-full' }}">
-            Gestión de Sectores
-        </span>
+                    {{ request()->routeIs('sectores.*') ? 'after:w-full' : 'after:w-0 group-hover:after:w-full' }}">
+                        Gestión de Sectores
+                    </span>
                 </a>
 
-                {{-- ✅ Gestión de Lotes --}}
+                {{-- Gestión de Lotes --}}
                 <a href="{{ route('lotes.index') }}"
                    class="flex items-center px-4 py-2 rounded-xl font-medium transition-all duration-300 group
-       {{ request()->routeIs('lotes.*') ? 'text-emerald-700 bg-emerald-50' : 'text-gray-600 hover:text-emerald-700 hover:bg-emerald-50' }}">
+                   {{ request()->routeIs('lotes.*') ? 'text-emerald-700 bg-emerald-50' : 'text-gray-600 hover:text-emerald-700 hover:bg-emerald-50' }}">
                     <i class="fas fa-layer-group mr-2 {{ request()->routeIs('lotes.*') ? 'text-emerald-600' : 'text-gray-500 group-hover:text-emerald-600' }}"></i>
                     <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300
-            {{ request()->routeIs('lotes.*') ? 'after:w-full' : 'after:w-0 group-hover:after:w-full' }}">
-            Gestión de Lotes
-        </span>
+                    {{ request()->routeIs('lotes.*') ? 'after:w-full' : 'after:w-0 group-hover:after:w-full' }}">
+                        Gestión de Lotes
+                    </span>
                 </a>
 
-                {{-- ✅ Cámaras --}}
-                <a href="{{ url('/camaras') }}"
-                   class="flex items-center px-4 py-2 rounded-xl font-medium transition-all duration-300 group
-       {{ request()->is('camaras*') ? 'text-emerald-700 bg-emerald-50' : 'text-gray-600 hover:text-emerald-700 hover:bg-emerald-50' }}">
-                    <i class="fas fa-camera mr-2 {{ request()->is('camaras*') ? 'text-emerald-600' : 'text-gray-500 group-hover:text-emerald-600' }}"></i>
-                    <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300
-            {{ request()->is('camaras*') ? 'after:w-full' : 'after:w-0 group-hover:after:w-full' }}">
-            Cámaras
-        </span>
-                </a>
-
-                {{-- 🆕 Historial --}}
+                {{-- Historial --}}
                 <a href="{{ route('historial.index') }}"
                    class="flex items-center px-4 py-2 rounded-xl font-medium transition-all duration-300 group
-       text-gray-600 hover:text-emerald-700 hover:bg-emerald-50">
-                    <i class="fas fa-history mr-2 text-gray-500 group-hover:text-emerald-600"></i>
-                    <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300 after:w-0 group-hover:after:w-full">
-            Historial
-        </span>
+                   {{ request()->routeIs('historial.*') ? 'text-emerald-700 bg-emerald-50' : 'text-gray-600 hover:text-emerald-700 hover:bg-emerald-50' }}">
+                    <i class="fas fa-history mr-2 {{ request()->routeIs('historial.*') ? 'text-emerald-600' : 'text-gray-500 group-hover:text-emerald-600' }}"></i>
+                    <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300
+                    {{ request()->routeIs('historial.*') ? 'after:w-full' : 'after:w-0 group-hover:after:w-full' }}">
+                        Historial
+                    </span>
                 </a>
 
-                {{-- 🆕 Costos --}}
+                {{-- Costos --}}
                 <a href="{{ route('costos.index') }}"
                    class="flex items-center px-4 py-2 rounded-xl font-medium transition-all duration-300 group
-       text-gray-600 hover:text-emerald-700 hover:bg-emerald-50">
-                    <i class="fas fa-dollar-sign mr-2 text-gray-500 group-hover:text-emerald-600"></i>
-                    <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300 after:w-0 group-hover:after:w-full">
-            Costos
-        </span>
-                </a>
-
-                {{-- 🆕 Análisis de Datos --}}
-                <a href="#"
-                   class="flex items-center px-4 py-2 rounded-xl font-medium transition-all duration-300 group
-       text-gray-600 hover:text-emerald-700 hover:bg-emerald-50">
-                    <i class="fas fa-chart-line mr-2 text-gray-500 group-hover:text-emerald-600"></i>
-                    <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300 after:w-0 group-hover:after:w-full">
-            Análisis de Datos
-        </span>
-                </a>
-
-                {{-- 🆕 Reportes --}}
-                <a href="#"
-                   class="flex items-center px-4 py-2 rounded-xl font-medium transition-all duration-300 group
-       text-gray-600 hover:text-emerald-700 hover:bg-emerald-50">
-                    <i class="fas fa-file-alt mr-2 text-gray-500 group-hover:text-emerald-600"></i>
-                    <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300 after:w-0 group-hover:after:w-full">
-            Reportes
-        </span>
+                   {{ request()->routeIs('costos.*') ? 'text-emerald-700 bg-emerald-50' : 'text-gray-600 hover:text-emerald-700 hover:bg-emerald-50' }}">
+                    <i class="fas fa-dollar-sign mr-2 {{ request()->routeIs('costos.*') ? 'text-emerald-600' : 'text-gray-500 group-hover:text-emerald-600' }}"></i>
+                    <span class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300
+                    {{ request()->routeIs('costos.*') ? 'after:w-full' : 'after:w-0 group-hover:after:w-full' }}">
+                        Costos
+                    </span>
                 </a>
             </div>
-
-
         </div>
 
         <!-- Botón hamburguesa: solo en móvil -->
@@ -140,10 +109,13 @@
                         </div>
                         <a href="" class="block px-4 py-2 text-gray-700 hover:bg-emerald-50 transition-colors">Perfil</a>
                         <a href="{{route('vista.ajustes')}}" class="block px-4 py-2 text-gray-700 hover:bg-emerald-50 transition-colors">Ajustes</a>
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('cerrar.sesion') }}">
                             @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-emerald-50 transition-colors">Cerrar sesión</button>
+                            <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-emerald-50 transition-colors">
+                                Cerrar sesión
+                            </button>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -161,26 +133,15 @@
             <a href="{{ route('sectores.index') }}" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-emerald-50">
                 <i class="fas fa-dove mr-2"></i> Gestión de Sectores
             </a>
-            <a href="{{ url('/camaras') }}" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-emerald-50">
-                <i class="fas fa-camera mr-2"></i> Cámaras
+            <a href="{{ route('lotes.index') }}" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-emerald-50">
+                <i class="fas fa-layer-group mr-2"></i> Gestión de Lotes
             </a>
-
-            @auth
-                <hr class="my-1">
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-emerald-50">
-                    <i class="fas fa-user mr-2"></i> Perfil
-                </a>
-                <a href="{{route('vista.ajustes')}}" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-emerald-50">
-                    <i class="fas fa-user mr-2"></i> Ajustes
-                </a>
-
-                <form method="POST" action="">
-                    @csrf
-                    <button type="submit" class="flex items-center w-full px-4 py-3 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
-                    </button>
-                </form>
-            @endauth
+            <a href="{{ route('historial.index') }}" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-emerald-50">
+                <i class="fas fa-history mr-2"></i> Historial
+            </a>
+            <a href="{{ route('costos.index') }}" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-emerald-50">
+                <i class="fas fa-dollar-sign mr-2"></i> Costos
+            </a>
         </div>
     </div>
 </nav>

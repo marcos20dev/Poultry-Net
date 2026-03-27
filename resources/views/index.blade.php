@@ -7,7 +7,7 @@
     <div class="text-center py-5 bg-light rounded shadow-sm">
         <h1 class="display-4 fw-bold">🐔 PoultryNet</h1>
         <p class="lead">Sistema inteligente para la detección temprana de enfermedades en pollos.</p>
-        <a href="{{ url('/login') }}" class="btn btn-primary btn-lg mt-3">Comenzar</a>
+        <a href="{{ route('login')}}" class="btn btn-primary btn-lg mt-3">Comenzar</a>
     </div>
 
     {{-- Sección de características --}}
@@ -43,6 +43,6 @@
     {{-- CTA final --}}
     <div class="text-center mt-5">
         <h2 class="fw-bold">Empieza a cuidar tu granja hoy mismo 🐥</h2>
-        <a href="{{ url('/register') }}" class="btn btn-success btn-lg mt-3">Crear cuenta gratis</a>
+        <a href="{{ route('vista.registro') }}" class="btn btn-success btn-lg mt-3">Crear cuenta gratis</a>
     </div>
 @endsection

@@ -10,22 +10,18 @@
             <h1 class="text-3xl font-extrabold text-gray-800 flex items-center gap-2">
                 💰 Gestión General de Costos
             </h1>
-            <p class="text-sm text-gray-500 mt-2 md:mt-0">Última actualización: {{ now()->format('d/m/Y H:i') }}</p>
+            <div class="flex items-center gap-3 mt-2 md:mt-0">
+                <p class="text-sm text-gray-500">Última actualización: {{ now()->format('d/m/Y H:i') }}</p>
+
+                {{-- Botón discreto para ir al formulario --}}
+                <a href="{{ route('costos.form') }}"
+                   class="hidden md:inline-flex items-center gap-1 text-sm text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full
+                  hover:bg-gray-200 transition-colors duration-200">
+                    ✏️ Editar
+                </a>
+            </div>
         </div>
 
-        @php
-            // Datos estáticos
-            $inversion = 1300;
-            $costo_det = 5;
-            $detecciones = 20;
-
-            // Cálculos
-            $retorno = $costo_det * $detecciones;
-            $estado = $retorno >= $inversion ? 'ahorro' : 'recuperacion';
-            $ahorro = $estado === 'ahorro' ? $retorno - $inversion : 0;
-            $faltante = $estado === 'recuperacion' ? $inversion - $retorno : 0;
-            $porcentaje = min(100, ($retorno / $inversion) * 100);
-        @endphp
 
         {{-- Cards principales --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -35,7 +31,7 @@
             </div>
             <div class="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
                 <p class="text-sm text-gray-500">Costo por Detección</p>
-                <p class="text-2xl font-bold text-gray-800">S/ {{ number_format($costo_det, 2) }}</p>
+                <p class="text-2xl font-bold text-gray-800">S/ {{ number_format($gasto_det, 2) }}</p>
             </div>
             <div class="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
                 <p class="text-sm text-gray-500">Detecciones Realizadas</p>
@@ -50,7 +46,7 @@
             </h2>
             <div class="w-full bg-gray-200 rounded-full h-5 overflow-hidden">
                 <div class="h-5 rounded-full transition-all duration-700
-                {{ $estado === 'ahorro' ? 'bg-green-500' : 'bg-yellow-500' }}"
+            {{ $estado === 'ahorro' ? 'bg-green-500' : 'bg-yellow-500' }}"
                      style="width: {{ $porcentaje }}%">
                 </div>
             </div>
@@ -97,14 +93,14 @@
                     <li class="flex justify-between">
                         <span>Ahorro neto</span>
                         <span class="font-bold {{ $estado === 'ahorro' ? 'text-green-600' : 'text-gray-400' }}">
-                        S/ {{ number_format($ahorro, 2) }}
-                    </span>
+                    S/ {{ number_format($ahorro, 2) }}
+                </span>
                     </li>
                     <li class="flex justify-between">
                         <span>Faltante para ROI</span>
                         <span class="font-bold {{ $estado === 'recuperacion' ? 'text-yellow-600' : 'text-gray-400' }}">
-                        S/ {{ number_format($faltante, 2) }}
-                    </span>
+                    S/ {{ number_format($faltante, 2) }}
+                </span>
                     </li>
                 </ul>
             </div>

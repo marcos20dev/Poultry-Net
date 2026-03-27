@@ -4,18 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Sector;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SectorController extends Controller
 {
     public function loteDetalle(Sector $sector)
     {
-        $lotes = $sector->lotes()->get(); // Relación one-to-many en Sector
+        // Mostrar solo lotes del user logueado
+        $lotes = $sector->lotes()
+            ->where('user_id', auth()->id())
+            ->get();
+
         return view('site.gestion_lotes.lote-detalle', compact('sector', 'lotes'));
     }
 
     public function index(Request $request)
     {
-        $query = Sector::query();
+        $query = Sector::where('user_id', auth()->id()); // ✅ filtro por usuario
 
         // 🔍 Filtro búsqueda (nombre o descripción)
         if ($request->filled('q')) {
@@ -51,49 +56,40 @@ class SectorController extends Controller
     }
 
 
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|unique:sectores,nombre',
-            'temperatura' => 'required',
-            'descripcion' => 'nullable',
+            'nombre' => [
+                'required',
+                Rule::unique('sectores')->where(fn ($query) => $query->where('user_id', auth()->id())),
+            ],
+            'temperatura' => 'required|numeric',
+            'descripcion' => 'nullable|string',
         ]);
 
-        Sector::create($request->all());
+        Sector::create([
+            'nombre' => $request->nombre,
+            'temperatura' => $request->temperatura,
+            'descripcion' => $request->descripcion,
+            'user_id' => auth()->id(),
+        ]);
 
         return redirect()->route('sectores.index')
             ->with('success', 'Sector creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Sector $sector)
     {
+        if ($sector->user_id !== auth()->id()) {
+            abort(403, 'No autorizado');
+        }
+
         $request->validate([
-            'nombre' => 'required|unique:sectores,nombre,' . $sector->id,
+            'nombre' => [
+                'required',
+                Rule::unique('sectores')->ignore($sector->id)->where(fn ($query) => $query->where('user_id', auth()->id())),
+            ],
             'temperatura' => 'required|numeric',
             'descripcion' => 'nullable|string',
         ]);
@@ -104,11 +100,15 @@ class SectorController extends Controller
             ->with('success', 'Sector actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
+
     public function destroy(Sector $sector)
     {
+        // ✅ asegurar que solo el dueño lo pueda eliminar
+        if ($sector->user_id !== auth()->id()) {
+            abort(403, 'No autorizado');
+        }
+
         $sector->delete();
 
         return redirect()->route('sectores.index')

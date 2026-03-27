@@ -17,6 +17,7 @@ class Lote extends Model
         'raza',
         'fecha_ingreso',
         'descripcion',
+        'user_id', // ✅ agregamos esto
     ];
 
     public function sector()
